@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <cctype>
 
 using std::cout;
 using std::endl;
@@ -12,6 +13,7 @@ using std::tolower;
 class Shape {
 public:
     virtual void draw() = 0;
+    virtual ~Shape() = default;
 };
 
 
@@ -42,6 +44,7 @@ public:
 class AbstractFactory {
 public:
     virtual Shape* getShape(string shapeType) = 0;
+    virtual ~AbstractFactory() = default;
 protected:
     bool equalsIgnoreCase(string s1, string s2) {
         transform(s1.begin(), s1.end(), s1.begin(), [](unsigned char c) {return tolower(c);});
@@ -65,6 +68,7 @@ public:
 
 
 class RoundedShapeFactory: public AbstractFactory {
+public:
     Shape* getShape(string shapeType) override {
         if (equalsIgnoreCase(shapeType, "RECTANGLE")) {
             return new RoundedRectangle();
@@ -104,6 +108,13 @@ int main() {
 
     Shape* shape4 = shapeFactory1->getShape("SQUARE");
     shape4->draw();
+
+    delete shapeFactory;
+    delete shapeFactory1;
+    delete shape1;
+    delete shape2;
+    delete shape3;
+    delete shape4;
 
     return 0;
 }
