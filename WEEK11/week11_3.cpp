@@ -38,10 +38,7 @@ class Observer {
 protected:
     Subject* subject;
 public:
-    Observer(Subject* subject) {
-        this->subject = subject;
-        this->subject->attach(this);
-    }
+    Observer(Subject* subject): subject(subject) { this->subject->attach(this); }
     virtual ~Observer() = default;
     virtual void update() = 0;
 };
