@@ -38,6 +38,10 @@ class Observer {
 protected:
     Subject* subject;
 public:
+    Observer(Subject* subject) {
+        this->subject = subject;
+        this->subject->attach(this);
+    }
     virtual ~Observer() = default;
     virtual void update() = 0;
 };
@@ -48,10 +52,7 @@ void Subject::notifyAllObservers() { for (Observer* observer: this->observers) o
 
 class BinaryObserver: public Observer {
 public:
-    BinaryObserver(Subject* subject): Observer() {
-        this->subject = subject;
-        this->subject->attach(this);
-    }
+    BinaryObserver(Subject* subject): Observer(subject) {}
 
     void update() override { cout << "Binary String: " << bitset<32>(subject->getState()) << endl; }
 };
@@ -59,10 +60,7 @@ public:
 
 class OctalObserver: public Observer {
 public:
-    OctalObserver(Subject* subject) {
-        this->subject = subject;
-        this->subject->attach(this);
-    }
+    OctalObserver(Subject* subject): Observer(subject) {}
     
     void update() override { cout << "Octal String: " << oct << subject->getState() << endl; }
 };
@@ -70,10 +68,7 @@ public:
 
 class HexaObserver: public Observer {
 public:
-    HexaObserver(Subject* subject) {
-        this->subject = subject;
-        this->subject->attach(this);
-    }
+    HexaObserver(Subject* subject): Observer(subject) {}
     
     void update() override { cout << "Hex String: " << hex << subject->getState() << endl; }
 };
